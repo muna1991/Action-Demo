@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   first-action-job:
-    runs-on: ubuntu:latest
+    runs-on: ubuntu-latest
     steps:
       - name: print command
         run: echo "Hello World!"
