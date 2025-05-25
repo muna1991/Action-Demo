@@ -16,4 +16,13 @@ jobs:
         run: echo "::error title=Warning Title,file=new.js,line=4,End Line=8,column=18,End column=10::Missing Semicolumn"
       - name: setting an notice message with param
         run: echo "::error title=Notice Title,file=new.js,line=4,End Line=8,column=18,End column=10::Missing Semicolumn"
+      - name: group of logs
+        run: |
+          echo "::group::My group title"
+          echo "Inside group value"
+          echo "::endgroup::"
+      - name: masking value
+        run: echo "::add-mask::Secret String"
+      - name: Echo S secret
+        run: "Secret String"
      
