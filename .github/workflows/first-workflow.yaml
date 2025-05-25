@@ -12,3 +12,15 @@ jobs:
         run: |
           node -v
           npm -v
+  second-action-job:
+    runs-on: macos-latest
+    steps:
+      - name: view sw version
+        run: view sw_vers
+  dependent-job:
+    runs-on: windows-latest
+    steps:
+      - name: printing string 
+        run: Write-Output "Windows string"
+      - name: Error Step
+        run: doesnotexits
