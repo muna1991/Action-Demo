@@ -22,7 +22,7 @@ jobs:
           echo "Inside group value"
           echo "::endgroup::"
       - name: masking value
-        run: echo "::add-mask::Secret String"
+        run: echo "::add-mask::neuf92e2-0e8eu-ebdjd"
       - name: Echo S secret
-        run: "Secret value"
+        run: "neuf92e2-0e8eu-ebdjd"
      
