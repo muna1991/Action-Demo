@@ -23,4 +23,4 @@ jobs:
       - name: printing string 
         run: Write-Output "Windows string"
       - name: Error Step
-        run: doesnotexits
+        run: doesnotexit
