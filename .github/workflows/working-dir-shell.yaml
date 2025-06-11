@@ -39,7 +39,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: List Action Directory Contents (debug)
-        run: ls -la .github/actions/extract-config-file
+        run: ls -la
 
       - name: Extract Variables from Config File
         id: extract-vars
