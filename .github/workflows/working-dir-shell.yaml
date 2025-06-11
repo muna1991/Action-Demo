@@ -40,7 +40,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Extract Variables from Config File
-        uses: ./.github/actions/extract-config-file
+        uses: /home/ubuntu/actions-runner/_work/docker-lib-multifile-build/docker-lib-multifile-build/.github/actions/extract-config-file
         with:
           config_file: ${{ matrix.config_file }}
 
