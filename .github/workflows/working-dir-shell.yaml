@@ -7,7 +7,7 @@ defaults:
 
 jobs:
   display-wd-info:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Display working directory & files
         run: |
@@ -19,23 +19,23 @@ jobs:
       - name: change Working DIrectory
         working-directory: /home/runner
         run: pwd
-  dispaly-wd-windows-info:
-    runs-on: windows-latest
-    defaults:
-      run:
-        shell: pwsh
-    steps:
-      - name: Dispaly working directory & list of files
-        run: |
-          Get-Location
-          dir
-          echo $env:GITHUB_SHA
-          echo $env:GITHUB_REPOSITORY
-          echo $env:GITHUB_WORKSPACE
-      - name: Python Shell
-        shell: python
-        run: |
-            import platform 
-            print(platform.processor())
+  # dispaly-wd-windows-info:
+  #   runs-on: self-hosted
+  #   defaults:
+  #     run:
+  #       shell: pwsh
+    # steps:
+    #   - name: Dispaly working directory & list of files
+    #     run: |
+    #       Get-Location
+    #       dir
+    #       echo $env:GITHUB_SHA
+    #       echo $env:GITHUB_REPOSITORY
+    #       echo $env:GITHUB_WORKSPACE
+    #   - name: Python Shell
+    #     shell: python
+    #     run: |
+    #         import platform 
+    #         print(platform.processor())
             
         
