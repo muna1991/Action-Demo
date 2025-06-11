@@ -42,7 +42,6 @@ jobs:
         run: ls -la
 
       - name: Extract Variables from Config File
-        id: extract-vars
         uses: muna1991/Action-Demo/.github/actions/extract-config-file@main
         with:
           config_file: ${{ matrix.config_file }}
