@@ -1,0 +1,28 @@
+# .github/actions/extract-docker-config/action.yaml
+name: Extract Docker Config Variables
+description: Parses docker-config YAML file and sets environment variables
+inputs:
+  config_file:
+    description: Path to the config file (e.g., docker-config/app.yaml)
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Parse Config File
+      shell: bash
+      run: |
+        CONFIG_FILE="${{ inputs.config_file }}"
+        ecr_repo_name=$(yq eval '.ecr_repo_name' "$CONFIG_FILE")
+        docker_image_tag=$(yq eval '.docker_image_tag' "$CONFIG_FILE")
+        dockerfile_location=$(yq eval '.dockerfile_location // ""' "$CONFIG_FILE")
+        account_name=$(yq eval '.account_name' "$CONFIG_FILE")
+        region=$(yq eval '.region // ""' "$CONFIG_FILE")
+        skip_vulnerability_check=$(yq eval '.skip_vulnerability_check // "false"' "$CONFIG_FILE" | tr '[:upper:]' '[:lower:]')
+
+        echo "ecr_repo_name=$ecr_repo_name" >> $GITHUB_ENV
+        echo "docker_image_tag=$docker_image_tag" >> $GITHUB_ENV
+        echo "dockerfile_location=$dockerfile_location" >> $GITHUB_ENV
+        echo "account_name=$account_name" >> $GITHUB_ENV
+        echo "region=$region" >> $GITHUB_ENV
+        echo "skip_vulnerability_check=$skip_vulnerability_check" >> $GITHUB_ENV

@@ -40,19 +40,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Extract Variables from Config File
-        id: extract-vars
-        run: |
-          CONFIG_FILE="${{ matrix.config_file }}"
-          ecr_repo_name=$(yq eval '.ecr_repo_name' "$CONFIG_FILE")
-          docker_image_tag=$(yq eval '.docker_image_tag' "$CONFIG_FILE")
-          dockerfile_location=$(yq eval '.dockerfile_location' "$CONFIG_FILE")
-          account_name=$(yq eval '.account_name' "$CONFIG_FILE")
-          region=$(yq eval '.region' "$CONFIG_FILE")
-          echo "ecr_repo_name=$ecr_repo_name" >> $GITHUB_ENV
-          echo "docker_image_tag=$docker_image_tag" >> $GITHUB_ENV
-          echo "dockerfile_location=$dockerfile_location" >> $GITHUB_ENV
-          echo "account_name=$account_name" >> $GITHUB_ENV
-          echo "region=$region" >> $GITHUB_ENV
+        uses: ./.github/actions/extract-config-file
+        with:
+          config_file: ${{ matrix.config_file }}
 
       - name: Validate Dockerfile Path
         run: |
@@ -79,17 +69,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Extract Variables from Config File
-        id: extract-vars
-        run: |
-          CONFIG_FILE="${{ matrix.config_file }}"
-          ecr_repo_name=$(yq eval '.ecr_repo_name' "$CONFIG_FILE")
-          docker_image_tag=$(yq eval '.docker_image_tag' "$CONFIG_FILE")
-          account_name=$(yq eval '.account_name' "$CONFIG_FILE")
-          skip_vulnerability_check=$(yq eval '.skip_vulnerability_check // "false"' "$CONFIG_FILE" | tr '[:upper:]' '[:lower:]')
-          echo "ecr_repo_name=$ecr_repo_name" >> $GITHUB_ENV
-          echo "docker_image_tag=$docker_image_tag" >> $GITHUB_ENV
-          echo "account_name=$account_name" >> $GITHUB_ENV
-          echo "skip_vulnerability_check=$skip_vulnerability_check" >> $GITHUB_ENV
+        uses: ./.github/actions/extract-config-file
+        with:
+          config_file: ${{ matrix.config_file }}
 
       - name: Run Trivy Vulnerability Scan
         run: |
@@ -120,17 +102,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Extract Variables from Config File
-        id: extract-vars
-        run: |
-          CONFIG_FILE="${{ matrix.config_file }}"
-          ecr_repo_name=$(yq eval '.ecr_repo_name' "$CONFIG_FILE")
-          docker_image_tag=$(yq eval '.docker_image_tag' "$CONFIG_FILE")
-          account_name=$(yq eval '.account_name' "$CONFIG_FILE")
-          region=$(yq eval '.region' "$CONFIG_FILE")
-          echo "ecr_repo_name=$ecr_repo_name" >> $GITHUB_ENV
-          echo "docker_image_tag=$docker_image_tag" >> $GITHUB_ENV
-          echo "account_name=$account_name" >> $GITHUB_ENV
-          echo "region=$region" >> $GITHUB_ENV
+        uses: ./.github/actions/extract-config-file
+        with:
+          config_file: ${{ matrix.config_file }}
 
       # - name: Log in to AWS ECR
       #   uses: aws-actions/amazon-ecr-login@v1
