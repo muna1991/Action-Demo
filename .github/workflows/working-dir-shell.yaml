@@ -93,7 +93,7 @@ jobs:
     needs: ["scan", "detect-updates"]
     runs-on: self-hosted
     environment:
-      name: Release  # Manual approval is required here
+      name: Release # Manual approval is required here
     strategy:
       matrix:
         config_file: ${{ fromJson(needs.detect-updates.outputs.matrix || '[]') }}
