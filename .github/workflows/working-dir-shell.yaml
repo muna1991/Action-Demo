@@ -89,8 +89,41 @@ jobs:
             fi
           fi
 
-  push:
+  slack-approval:
     needs: ["scan", "detect-updates"]
+    runs-on: self-hosted
+    strategy:
+      matrix:
+        config_file: ${{ fromJson(needs.detect-updates.outputs.matrix || '[]') }}
+    steps:
+      - name: Send Slack Approval
+        id: send_slack
+        uses: your-org/slack-approval-action@main
+        with:
+          slack_token: ${{ secrets.SLACK_BOT_TOKEN }}
+          channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
+          image_tag: ${{ matrix.config_file }}
+
+      - name: Wait for Approval (poll external store)
+        run: |
+          echo "Waiting for approval..."
+          for i in {1..30}; do
+            decision=$(aws ssm get-parameter --name "/approvals/${{ matrix.config_file }}" --query "Parameter.Value" --output text || echo "pending")
+            if [[ "$decision" == "approve" ]]; then
+              echo "✅ Approved"
+              exit 0
+            elif [[ "$decision" == "reject" ]]; then
+              echo "❌ Rejected"
+              exit 1
+            fi
+            echo "Waiting..."
+            sleep 30
+          done
+          echo "⏰ Timed out waiting for approval"
+          exit 1
+
+  push:
+    needs: ["scan", "detect-updates", "slack-approval"]
     runs-on: self-hosted
     environment:
       name: Release # Manual approval is required here

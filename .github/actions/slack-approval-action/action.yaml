@@ -1,0 +1,16 @@
+name: "Slack Approval with Buttons"
+description: "Send Slack approval message and wait for decision"
+inputs:
+  slack_token:
+    required: true
+    description: "Slack Bot Token"
+  channel_id:
+    required: true
+    description: "Slack Channel ID"
+  image_tag:
+    required: true
+    description: "Image tag to include in message"
+
+runs:
+  using: "node16"
+  main: "index.js"
