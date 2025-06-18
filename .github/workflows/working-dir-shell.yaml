@@ -98,7 +98,7 @@ jobs:
     steps:
       - name: Send Slack Approval
         id: send_slack
-        uses: your-org/slack-approval-action@main
+        uses: muna1991/Action-Demo/.github/actions/slack-approval-action@main
         with:
           slack_token: ${{ secrets.SLACK_BOT_TOKEN }}
           channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
